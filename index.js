@@ -37,7 +37,7 @@ async function run() {
 
     const db = client.db("rent-wheelsdb"); 
     const userCollection = db.collection('users') // user collection 
-    // const productCollection = db.collection("cars");
+    const carstCollection = db.collection("cars");
 
      // user functionalaty 
     app.post('/users',async(req,res)=>{
@@ -53,6 +53,12 @@ async function run() {
         res.send(result)
       }   
     })
+
+    app.post("/cars", async (req, res) => {
+      const newCar = req.body;
+      const result = await carstCollection.insertOne(newCar);
+      res.send(result);
+    });
 
 
 
