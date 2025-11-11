@@ -53,12 +53,27 @@ async function run() {
         res.send(result)
       }   
     })
-
+      // create cars
     app.post("/cars", async (req, res) => {
       const newCar = req.body;
       const result = await carstCollection.insertOne(newCar);
       res.send(result);
     });
+
+    // showing cars 
+
+    app.get('/cars',async(req,res)=>{
+      const cursor = carstCollection.find({}).sort({_id:-1}).limit(6)
+      const result = await cursor.toArray()
+      res.send(result)
+  
+    })
+    app.get('/browsecars',async(req,res)=>{
+      const cursor = carstCollection.find({})
+      const result = await cursor.toArray()
+      res.send(result)
+  
+    })
 
 
 
