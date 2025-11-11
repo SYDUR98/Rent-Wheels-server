@@ -80,9 +80,30 @@ async function run() {
       res.send(car);
     });
 
+    // my listing functionalities
+    app.get("/mylisting", async (req, res) => {
+      const email = req.query.email; // logged-in provider email => user
+      if (!email) return res.status(400).send({ message: "Email required" });
+      try {
+        // query by providerEmail
+        const query = { providerEmail: email }
+        const listings = await carstCollection
+          .find(query)
+          .toArray();
+        res.send(listings);
+      } catch (err) {
+        res.status(500).send({ message: err.message });
+      }
+    });
 
+    
 
-
+     app.delete("/cars/:id", async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await carstCollection.deleteOne(query);
+            res.send(result);
+        })
 
 
 
